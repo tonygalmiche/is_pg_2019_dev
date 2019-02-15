@@ -257,7 +257,7 @@
                 <link href="/web/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet"/>
                 <style type="text/css">
                     <t t-call="report.style"/>
-                    <t t-call="is_pg_2019.report_bon_transfert_style"/>
+                    <t t-call="is_pg_2019_dev.report_bon_transfert_style"/>
                 </style>
             </xpath>
             <!-- Remove conflicting style -->
@@ -268,7 +268,7 @@
 
         <template id="report_bon_transfert_html_container">
             <t t-set="body_classname" t-value="'container'"/>
-            <t t-call="is_pg_2019.report_bon_transfert_layout">
+            <t t-call="is_pg_2019_dev.report_bon_transfert_layout">
                 <t t-raw="0"/>
             </t>
         </template>
@@ -281,9 +281,9 @@
             <t t-if="not o or not 'company_id' in o">
                 <t t-set="company" t-value="res_company" />
             </t>
-            <t t-call="is_pg_2019.report_is_fiche_tampographie_external_layout_header" />
+            <t t-call="is_pg_2019_dev.report_is_fiche_tampographie_external_layout_header" />
             <t t-raw="0" />
-            <t t-call="is_pg_2019.report_is_fiche_tampographie_external_layout_footer" />
+            <t t-call="is_pg_2019_dev.report_is_fiche_tampographie_external_layout_footer" />
         </template>
 
         <template id="report_is_fiche_tampographie_external_layout_footer">
@@ -387,7 +387,7 @@
         </template>
 
         <template id="report_is_fiche_tampographie_document">
-            <t t-call="is_pg_2019.report_is_fiche_tampographie_external_layout">
+            <t t-call="is_pg_2019_dev.report_is_fiche_tampographie_external_layout">
                 <!-- <t t-call="report.internal_layout"> -->
                     <div class="page">
                         <div class="oe_structure" />
@@ -1161,7 +1161,7 @@
                                               <table width="100">
                                                 <tr>
                                                     <td>
-                                                        <img src='/is_pg_2019/static/img/tampho.png' class="imgclass"/>
+                                                        <img src='/is_pg_2019_dev/static/img/tampho.png' class="imgclass"/>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -1190,7 +1190,7 @@
                                               <table width="100">
                                                 <tr>
                                                     <td>
-                                                        <img src='/is_pg_2019/static/img/tampho.png' class="imgclass"/>
+                                                        <img src='/is_pg_2019_dev/static/img/tampho.png' class="imgclass"/>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -1224,7 +1224,7 @@
                                             <table width="100">
                                                 <tr>
                                                     <td>
-                                                        <img src='/is_pg_2019/static/img/tampho.png' class="imgclass"/>
+                                                        <img src='/is_pg_2019_dev/static/img/tampho.png' class="imgclass"/>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -1311,17 +1311,17 @@
         </template>
 
         <template id="report_is_fiche_tampographie">
-            <t t-call="is_pg_2019.report_bon_transfert_html_container">
+            <t t-call="is_pg_2019_dev.report_bon_transfert_html_container">
                 <t t-foreach="doc_ids" t-as="doc_id">
                     <t
-                        t-raw="translate_doc(doc_id, doc_model, 'redacteur_id.lang', 'is_pg_2019.report_is_fiche_tampographie_document')" />
+                        t-raw="translate_doc(doc_id, doc_model, 'redacteur_id.lang', 'is_pg_2019_dev.report_is_fiche_tampographie_document')" />
                 </t>
             </t>
         </template>
 
         <report id="report_is_fiche_tampographies" model="is.fiche.tampographie"
             string="Tampographie" report_type="qweb-pdf"
-            name="is_pg_2019.report_is_fiche_tampographie" file="is_pg_2019.report_is_fiche_tampographie" />
+            name="is_pg_2019_dev.report_is_fiche_tampographie" file="is_pg_2019_dev.report_is_fiche_tampographie" />
 
         <record id="is_fiche_tampographie_paperformat" model="report.paperformat">
             <field name="name">A4 - Tampographie Reglage</field>
@@ -1340,7 +1340,7 @@
         </record>
 
         <record id="report_is_fiche_tampographies" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="is_pg_2019.is_fiche_tampographie_paperformat" />
+            <field name="paperformat_id" ref="is_pg_2019_dev.is_fiche_tampographie_paperformat" />
         </record>
 
     </data>
