@@ -30,6 +30,7 @@ class is_ot(models.Model):
 
     @api.model
     def create(self, vals):
+        vals['name'] = self.env['ir.sequence'].get('is.ot') or ''
         if vals and not vals.get('equipement_id') and not vals.get('moule_id') and not vals.get('dossierf_id'):
             raise except_orm(_('Configuration!'),
                              _(" it is obligatory to enter one of these fields to create the form : Equipement or Moule or Dossier F "))
@@ -48,12 +49,20 @@ class is_ot(models.Model):
         for data in self:
             if data.state == 'travaux_a_valider' and data.validation_travaux == 'non_ok':
                 data.signal_workflow('travaux_a_realiser')
+            if data.state == 'travaux_a_valider' and data.validation_travaux == 'ok':
+                data.signal_workflow('termine')
         return res
 
     @api.multi
     def vers_travaux_a_valider(self):
         for data in self:
             data.signal_workflow('travaux_a_valider')
+        return True
+
+    @api.multi
+    def vers_analyse_ot(self):
+        for data in self:
+            data.signal_workflow('creation_to_analyse')
         return True
 
     @api.multi
@@ -111,7 +120,7 @@ class is_ot(models.Model):
             obj.statusbar_clickable = vsb
 
 
-    name                = fields.Char(u"N° de l'OT", default=lambda self: self.env['ir.sequence'].next_by_code('is.ot'))
+    name                = fields.Char(u"N° de l'OT")
     state               = fields.Selection([
             ('creation', u'Création'),
             ('analyse_ot', u"Analyse de l'OT"),

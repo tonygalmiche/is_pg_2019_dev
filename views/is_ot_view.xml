@@ -60,20 +60,27 @@
                             type="object"
                             class="oe_highlight"
                         />
+                        <button 
+                            name="vers_analyse_ot"
+                            string="Analyse OT"
+                            attrs="{'invisible': [('state', '!=', 'creation')]}"
+                            type="object"
+                            class="oe_highlight"
+                        />
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="name" readonly="1"  attrs="{'readonly': [('state', '!=', 'creation')]}" />
-                                <field name="date_creation"      attrs="{'readonly': [('state', '!=', 'creation')]}" />
+                                <field name="date_creation"      readonly="1" />
                                 <field name="type_equipement_id" attrs="{'readonly': [('state', '!=', 'creation')]}" />
                                 <field name="equipement_id"      attrs="{'readonly': [('state', '!=', 'creation')]}" domain="[('type_id','=',type_equipement_id)]"/>
                                 <field name="gravite"            attrs="{'readonly': [('state', '!=', 'creation')]}" />
                             </group>
                             <group>
                                 <field name="site_id"      attrs="{'readonly': [('state', '!=', 'creation')]}" />
-                                <field name="demandeur_id" attrs="{'readonly': [('state', '!=', 'creation')]}" />
+                                <field name="demandeur_id" readonly="1" />
                                 <field name="moule_id"     attrs="{'readonly': [('state', '!=', 'creation')]}" />
                                 <field name="dossierf_id"  attrs="{'readonly': [('state', '!=', 'creation')]}" />
                                 <field name="numero_qrci"  attrs="{'readonly': [('state', '!=', 'creation')]}" />
@@ -84,12 +91,12 @@
                         </group>
                         <group>
                             <group>
-                                <field name="affectation_id" attrs="{'invisible': [('state', '=', 'creation')], 'readonly': [('state', '!=', 'analyse_ot')]}" />
+                                <field name="affectation_id" attrs="{'invisible': [('state', '=', 'creation')], 'readonly': [('state', '!=', 'analyse_ot')], 'required': [('state', '=', 'analyse_ot')]}" />
                                 <field name="validation_ot"  attrs="{'invisible': [('state', '=', 'creation')], 'required': [('state', '=', 'analyse_ot')], 'readonly': [('state', '!=', 'analyse_ot')]}" />
                                 <field name="motif"          attrs="{'invisible': ['|',('validation_ot', '!=', 'non'),('state', '=', 'creation')], 'required': [('validation_ot', '=', 'non')], 'readonly': [('state', '!=', 'analyse_ot')]}" />
                             </group>
                             <group>
-                                <field name="nature"             attrs="{'invisible': [('state', '=', 'creation')], 'readonly': [('state', '!=', 'analyse_ot')]}" />
+                                <field name="nature"             attrs="{'invisible': [('state', '=', 'creation')], 'readonly': [('state', '!=', 'analyse_ot')], 'required': [('state', '=', 'analyse_ot')]}" />
                                 <field name="delai_previsionnel" attrs="{'invisible': [('state', '=', 'creation')], 'readonly': [('state', '!=', 'analyse_ot')]}" />
                             </group>
                         </group>
@@ -100,7 +107,7 @@
                         <field name="temps_passe_ids"   attrs="{'invisible': [('state', 'in', ['creation','analyse_ot','annule'])], 'readonly': [('state', '!=', 'travaux_a_realiser')]}" colspan="4" nolabel="1">
                             <tree editable="bottom">
                                 <field name="technicien_id" />
-                                <field name="temps_passe" />
+                                <field name="temps_passe" widget="float_time" />
                                 <field name="descriptif" />
                             </tree>
                         </field>

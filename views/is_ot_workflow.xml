@@ -40,6 +40,12 @@
             <field name="kind">function</field>
             <field name="action">write({'state':'travaux_a_valider'})</field>
         </record>
+        <record id="act_termine" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_is_ot"/>
+            <field name="name">termine</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'termine'})</field>
+        </record>
 
         <!-- Transistion -->
 
@@ -67,6 +73,11 @@
             <field name="act_from" ref="act_travaux_a_valider"/>
             <field name="act_to" ref="act_travaux_a_realiser"/>
             <field name="signal">travaux_a_realiser</field>
+        </record>
+        <record id="is_travaux_a_valider_termine" model="workflow.transition">
+            <field name="act_from" ref="act_travaux_a_valider"/>
+            <field name="act_to" ref="act_termine"/>
+            <field name="signal">termine</field>
         </record>
 
     </data>
