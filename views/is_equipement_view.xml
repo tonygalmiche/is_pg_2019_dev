@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Equipement -->
+
+        <record id="view_is_equipement_presse_search" model="ir.ui.view">
+            <field name="name">view.is.equipement.presse.search</field>
+            <field name="model">is.equipement</field>
+            <field name="arch" type="xml">
+                <search string="Presse">
+                    <field name="type_id"/>
+                    <filter name="presse_filter" domain="[('type_id.code', '=', 'PRESSE')]" string="Presse"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_is_equipement_presse" model="ir.actions.act_window" >
+            <field name="name">Presse</field>
+            <field name="res_model">is.equipement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_is_equipement_presse_search"/>
+            <field name="context">{'search_default_presse_filter':1}</field>
+        </record>
+
+        <record id="view_is_equipement_prechauffeur_search" model="ir.ui.view">
+            <field name="name">view.is.equipement.prechauffeur.search</field>
+            <field name="model">is.equipement</field>
+            <field name="arch" type="xml">
+                <search string="Prechauffeur">
+                    <field name="type_id"/>
+                    <filter name="prechauffeur_filter" domain="[('type_id.code', '=', 'PRECHAUFFEUR')]" string="Prechauffeur"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_is_equipement_prechauffeur" model="ir.actions.act_window" >
+            <field name="name">Prechauffeur</field>
+            <field name="res_model">is.equipement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_is_equipement_prechauffeur_search"/>
+            <field name="context">{'search_default_prechauffeur_filter':1}</field>
+        </record>
+
+    </data>
+</openerp>
