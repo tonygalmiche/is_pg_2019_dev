@@ -31,7 +31,14 @@ class is_ot(models.Model):
     @api.model
     def create(self, vals):
         vals['name'] = self.env['ir.sequence'].get('is.ot') or ''
-        if vals and not vals.get('equipement_id') and not vals.get('moule_id') and not vals.get('dossierf_id'):
+        count = 0
+        if vals and vals.get('equipement_id'):
+            count += 1
+        if vals and vals.get('moule_id'):
+            count += 1
+        if vals and vals.get('dossierf_id'):
+            count += 1
+        if count == 0 or count > 1:
             raise except_orm(_('Configuration!'),
                              _(" it is obligatory to enter one of these fields to create the form : Equipement or Moule or Dossier F "))
         return super(is_ot, self).create(vals)
@@ -51,6 +58,17 @@ class is_ot(models.Model):
                 data.signal_workflow('travaux_a_realiser')
             if data.state == 'travaux_a_valider' and data.validation_travaux == 'ok':
                 data.signal_workflow('termine')
+            
+            count = 0
+            if data.equipement_id:
+                count += 1
+            if data.moule_id:
+                count += 1
+            if data.dossierf_id:
+                count += 1
+            if count == 0 or count > 1:
+                raise except_orm(_('Configuration!'),
+                                 _(" it is obligatory to enter one of these fields to create the form : Equipement or Moule or Dossier F "))
         return res
 
     @api.multi

@@ -13,12 +13,5 @@
         <menuitem id="menu_action_is_ot_form"             sequence="1"   parent="is_gestion_des_ot_menu"          action="action_is_ot" />
         <menuitem id="menu_action_is_ot_affectation_form" sequence="102" parent="is_plastigray.menu_is_dt_tables" action="action_is_ot_affectation" name="Gestion des OT Affectation"/>
 
-        <!-- Equipment -->
-        <menuitem id="menu_sub_main_is_equipement"     sequence="31" name="Equipement"      parent="is_plastigray.menu_main_outillages" />
-        <menuitem id="menu_is_equipement_type"         sequence="11" name="Type equipement" parent="menu_sub_main_is_equipement" action="is_pg_2019.action_is_equipement_type" />
-        <menuitem id="menu_is_equipement"              sequence="10" name="Equipement"      parent="menu_sub_main_is_equipement" action="is_pg_2019.action_is_equipement" />
-        <menuitem id="menu_is_equipement_presse"       sequence="12" name="Presse"          parent="menu_sub_main_is_equipement" action="action_is_equipement_presse" />
-        <menuitem id="menu_is_equipement_prechauffeur" sequence="13" name="Prechauffeur"    parent="menu_sub_main_is_equipement" action="action_is_equipement_prechauffeur" />
-
     </data>
 </openerp>
