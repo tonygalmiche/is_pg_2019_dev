@@ -45,20 +45,16 @@ class is_ot(models.Model):
 
     @api.multi
     def write(self, vals):
-        if vals and vals.get('state') and vals.get('state') == 'analyse_ot':
-            self.signal_workflow('creation_to_analyse')
-        if vals and vals.get('validation_ot'):
-            if vals.get('validation_ot') == 'oui':
-                self.signal_workflow('travaux_a_realiser')
-            if vals.get('validation_ot') == 'non':
-                self.signal_workflow('annule')
         res = super(is_ot, self).write(vals)
         for data in self:
+            if data.state == 'analyse_ot' and data.validation_ot == 'oui':
+                self.signal_workflow('travaux_a_realiser')
+            if data.state == 'analyse_ot' and data.validation_ot == 'non':
+                self.signal_workflow('annule')
             if data.state == 'travaux_a_valider' and data.validation_travaux == 'non_ok':
                 data.signal_workflow('travaux_a_realiser')
             if data.state == 'travaux_a_valider' and data.validation_travaux == 'ok':
                 data.signal_workflow('termine')
-            
             count = 0
             if data.equipement_id:
                 count += 1
@@ -128,14 +124,16 @@ class is_ot(models.Model):
         res['arch'] = etree.tostring(doc)
         return res
 
-    @api.depends()
-    def _compute(self):
-        uid = self._uid
-        for obj in self:
-            vsb = False
-            if uid == 1:
-                vsb = True
-            obj.statusbar_clickable = vsb
+    @api.model
+    def default_get(self, default_fields):
+        res = super(is_ot, self).default_get(default_fields)
+        if self._uid:
+            user_data = self.env['res.users'].browse(self._uid)
+            print ":user_data", user_data
+            if user_data and user_data.is_site_id:
+                res['site_id'] = user_data.is_site_id.id
+                res['site_id_obl'] = True
+        return res
 
 
     name                = fields.Char(u"N° de l'OT")
@@ -148,6 +146,7 @@ class is_ot(models.Model):
             ('termine', u'Terminé'),
             ], "State", readonly=True, default="creation")
     site_id             = fields.Many2one("is.database", "Site", required=True)
+    site_id_obl         = fields.Boolean("Site Obl", default=False)
     date_creation       = fields.Date(u"Date de création", copy=False, default=fields.Date.context_today, readonly=True)
     demandeur_id        = fields.Many2one("res.users", "Demandeur", default=lambda self: self.env.uid, readonly=True)
     type_equipement_id  = fields.Many2one("is.equipement.type", u"Type d'équipement")
