@@ -41,6 +41,11 @@ class is_ot(models.Model):
         if count == 0 or count > 1:
             raise except_orm(_('Configuration!'),
                              _(" it is obligatory to enter one of these fields to create the form : Equipement or Moule or Dossier F "))
+        if self._uid:
+            user_data = self.env['res.users'].browse(self._uid)
+            if user_data and not user_data.is_site_id:
+                raise except_orm(_('Configuration!'),
+                             _("Site must be filled in its user form"))
         return super(is_ot, self).create(vals)
 
     @api.multi
@@ -129,10 +134,8 @@ class is_ot(models.Model):
         res = super(is_ot, self).default_get(default_fields)
         if self._uid:
             user_data = self.env['res.users'].browse(self._uid)
-            print ":user_data", user_data
             if user_data and user_data.is_site_id:
                 res['site_id'] = user_data.is_site_id.id
-                res['site_id_obl'] = True
         return res
 
 
@@ -145,8 +148,7 @@ class is_ot(models.Model):
             ('annule', u'Annulé'),
             ('termine', u'Terminé'),
             ], "State", readonly=True, default="creation")
-    site_id             = fields.Many2one("is.database", "Site", required=True)
-    site_id_obl         = fields.Boolean("Site Obl", default=False)
+    site_id             = fields.Many2one("is.database", "Site", help="Site must be filled in its user form")
     date_creation       = fields.Date(u"Date de création", copy=False, default=fields.Date.context_today, readonly=True)
     demandeur_id        = fields.Many2one("res.users", "Demandeur", default=lambda self: self.env.uid, readonly=True)
     type_equipement_id  = fields.Many2one("is.equipement.type", u"Type d'équipement")
